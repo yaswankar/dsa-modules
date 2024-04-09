@@ -53,9 +53,45 @@ function insertionSort(list) {
     }
     console.log('Insertion Sort ====> Sorted list ----> O(n2)', list)
 }
+
+function quickSort(list, start, end) {
+    if(start < end) {
+        const pIndex = partition(list, start, end+1);
+        quickSort(list, start, pIndex-1);
+        quickSort(list, pIndex+1, end);
+    }
+    console.log('Quick Sort ====> Sorted list ----> O(n2)', list);
+}
+
+// helper methods
+function partition(list, low, high) {
+    let up = low, down = high;
+    let pivotEle = list[low];
+    do {
+        do{
+            up+=1;
+        } while(list[up] < pivotEle);
+        do {
+            down -= 1;
+        }  while(list[down] > pivotEle)
+        if(up < down) {
+            interchange(list, up, down);
+        }
+    } while (up < down);
+    list[low] = list[down];
+    list[down] = pivotEle;
+    return down;
+}
+
+function interchange(list, up, down) {
+    const temp = list[up];
+    list[up] = list[down];
+    list[down] = temp;
+}
  
 module.exports = {
     bubbleSort,
     selectionSort,
     insertionSort,
+    quickSort
 }
