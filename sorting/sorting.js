@@ -31,6 +31,12 @@ function selectionSort(list) {
     console.log('Selection Sort ====> Sorted list ----> O(n2)', list);
 }
 
+/* Adv: Suitable for a senario wherein a new element is added in an already sorted list
+        Works faster for less no of elements
+
+   Disadv: Slow for a large sized list
+           Worst performance when the input list is in whole reverse order
+*/
 function insertionSort(list) {
     const size = list.length;
     let temp;
