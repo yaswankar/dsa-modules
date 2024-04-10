@@ -63,7 +63,7 @@ function quickSort(list, start, end) {
     console.log('Quick Sort ====> Sorted list ----> O(n2)', list);
 }
 
-// helper methods
+// helper methods for quick sort
 function partition(list, low, high) {
     let up = low, down = high;
     let pivotEle = list[low];
@@ -88,10 +88,51 @@ function interchange(list, up, down) {
     list[up] = list[down];
     list[down] = temp;
 }
+
+
+/* Adv: Suitable in sorting bigger lists
+   Disadv: Requires a temporary array everytime to store merged elements
+*/
+function mergeSort(list, start, end) {
+    if(start < end) {
+        let mid = parseInt((start+end)/2, 10);
+        mergeSort(list, start, mid);
+        mergeSort(list, mid+1, end)
+        merge(list, start, mid, end);
+    }
+    console.log('Merge Sort => Sorted list >>>>', list);
+}
+
+//helper method for merge sort
+function merge(list, start, mid, end) {
+    let i=start, j=mid+1; k=start, temp = [];
+    while(i<=mid && j<=end) {
+        if(list[i]<list[j]) {
+            temp[k++] = list[i++];
+        } else {
+            temp[k++] = list[j++];
+        }
+    }
+    if(i>mid) {
+        while(j<=end) {
+            temp[k++] = list[j++]
+        }
+    } else {
+        while(i<=mid) {
+            temp[k++] = list[i++]
+        }
+    }
+    for(k=start; k<=end; k++) {
+        list[k] = temp[k];
+    }
+}
+
+
  
 module.exports = {
     bubbleSort,
     selectionSort,
     insertionSort,
-    quickSort
+    quickSort,
+    mergeSort,
 }
