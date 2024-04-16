@@ -84,6 +84,8 @@ function perform() {
     linkedList.printNodes();
     linkedList.removeElement();
     linkedList.printNodes();
+    const target = linkedList.getElement(2);
+    console.log('element at index 2 is ', target.value);
 }
 
 perform();
