@@ -9,6 +9,7 @@ class Node {
 class BinarySearchTree {
     constructor() {
         this.root = null;
+        this.dia = 0;
     }
 
     insert(val) {
@@ -86,7 +87,7 @@ class BinarySearchTree {
     }
 
     printNode(node) {
-        console.log(node.left?.value || '|', '--', node.value, '--', node.right?.value || '|');
+        console.log(node?.left?.value || '|', '--', node.value, '--', node?.right?.value || '|');
         if(!node.left) {
             return;
         } else {
@@ -98,22 +99,67 @@ class BinarySearchTree {
             this.printNode(node.right)
         }
     }
+    
+    // Count no of nodes in tree
+    countNodes(root) {
+        if(!root) return 0;
+        return 1+this.countNodes(root.left)+this.countNodes(root.right);
+    }
+
+    //diameter of tree
+    diameter(root) {
+        if(!root) return 0;
+        const lh = this.diameter(root.left);
+        const rh = this.diameter(root.right);
+        this.dia = Math.max(this.dia, 1 + lh + rh);
+        return (1 + Math.max(lh, rh));
+    }
+
+    //pust elements of bst into an arrahy
+    serialize(node, arr) {
+        if(!node) {
+            arr.push(null);
+            return;
+        }
+        arr.push(node.value);
+        this.serialize(node.left, arr);
+        this.serialize(node.right, arr);
+    }
+
+    //form bst from an array
+    deserialize(arr, index) {
+        if(index >= arr.length) {
+            return null;
+        }
+        const root = new Node(arr[index]);
+        root.left = this.deserialize(arr, index+1);
+        root.right = this.deserialize(arr, index+2);
+        return root;
+    }
 }
 
 
 (function perform() {
     const bst = new BinarySearchTree();
-    bst.insert(10);
-    bst.insert(3);
-    bst.insert(12);
-    bst.insert(15);
-    bst.insert(6);
-    bst.insert(11)
-    bst.printBst();
-    console.log('-----------------------------');
+    // bst.insert(10);
+    // bst.insert(3);
+    // bst.insert(12);
+    // bst.insert(15);
+    // bst.insert(6);
+    // bst.insert(11)
+    // bst.printBst();
+    // console.log('-----------------------------');
     // bst.remove(3);
     // bst.remove(12);
     // bst.printBst();
-    const searchNode = bst.searchNode(bst.root, 12);
-    console.log('searchedNode >>>>', searchNode);
+    // const searchNode = bst.searchNode(bst.root, 12);
+    // console.log('searchedNode >>>>', searchNode);
+    // console.log('NodeCount >>>', bst.countNodes(bst.root));
+    // console.log('Diameter of tree >>>', bst.diameter(bst.root));
+    // const arr = [];
+    // bst.serialize(bst.root, arr);
+    // console.log('serialized list >>>>', arr);
+    const list = [10, 3, 12, 2, 6, 9, 15];
+    bst.root = bst.deserialize(list, 0);
+    bst.printBst();
 })();
