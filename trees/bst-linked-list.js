@@ -136,17 +136,62 @@ class BinarySearchTree {
         root.right = this.deserialize(arr, index+2);
         return root;
     }
+
+    // pre-order traversal
+    preOrderTraversal(node) {
+        if(!node) return;
+        console.log(node.value, ', ');
+        this.preOrderTraversal(node.left);
+        this.preOrderTraversal(node.right);
+    }
+
+    // post-order traversal
+    postOrderTraversal(node) {
+        if(!node) return;
+        this.postOrderTraversal(node.left);
+        this.postOrderTraversal(node.right);
+        console.log(node.value, ', ');
+    }
+
+    height(root) {
+        if(!root) return 0;
+        const lh = this.height(root.left);
+        const rh = this.height(root.right);
+        if(lh > rh) return lh+1;
+        return rh+1;
+    }
+
+    // level-order traversal
+    levelOrderTraversal(root) {
+        const height = this.height(root);
+        for(let i = 1; i<=height; i++) {
+            this.printCurrentLevel(root, i);
+        }
+    }
+
+    // helper method for level-order traversal (Using BFS)
+    printCurrentLevel(node, lvl) {
+        if(!node) {
+             return;
+        }
+        if(lvl === 1) {
+            console.log(node.value);
+        } else if(lvl > 1) {
+            this.printCurrentLevel(node.left, lvl - 1);
+            this.printCurrentLevel(node.right, lvl - 1);
+        }
+    }
 }
 
 
 (function perform() {
     const bst = new BinarySearchTree();
-    // bst.insert(10);
-    // bst.insert(3);
-    // bst.insert(12);
-    // bst.insert(15);
-    // bst.insert(6);
-    // bst.insert(11)
+    bst.insert(10);
+    bst.insert(3);
+    bst.insert(12);
+    bst.insert(15);
+    bst.insert(6);
+    bst.insert(11)
     // bst.printBst();
     // console.log('-----------------------------');
     // bst.remove(3);
@@ -159,7 +204,10 @@ class BinarySearchTree {
     // const arr = [];
     // bst.serialize(bst.root, arr);
     // console.log('serialized list >>>>', arr);
-    const list = [10, 3, 12, 2, 6, 9, 15];
-    bst.root = bst.deserialize(list, 0);
+    // const list = [10, 3, 12, 2, 6, 9, 15];
+    // bst.root = bst.deserialize(list, 0);
     bst.printBst();
+    // bst.preOrderTraversal(bst.root);
+    // bst.postOrderTraversal(bst.root);
+    bst.levelOrderTraversal(bst.root);
 })();
